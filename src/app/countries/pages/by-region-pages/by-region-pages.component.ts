@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CountriesService } from '../../services/countries.service';
 import { Country } from '../../interface/contry.interface';
 import { Region } from './../../interface/region.type';
@@ -8,7 +8,7 @@ import { Region } from './../../interface/region.type';
   templateUrl: './by-region-pages.component.html',
   styleUrl: './by-region-pages.component.css',
 })
-export class ByRegionPagesComponent {
+export class ByRegionPagesComponent implements OnInit {
   constructor(private countriesService: CountriesService) {}
   public countries: Country[] = [];
   public regions: Region[] = [
@@ -20,6 +20,11 @@ export class ByRegionPagesComponent {
   ];
   public selectedRegion?: Region;
   public isLoading = false;
+
+  ngOnInit(): void {
+    this.countries = this.countriesService.cacheStore.byRegion.countries;
+    this.selectedRegion = this.countriesService.cacheStore.byRegion.region;
+  }
 
   searchByRegion(term: Region) {
     this.isLoading = true;
